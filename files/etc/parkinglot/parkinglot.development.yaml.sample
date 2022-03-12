@@ -1,0 +1,22 @@
+version: "0.0.1"
+
+server: 
+  name: "parkinglot"
+  http: 
+    address: ":8080"
+    write_timeout: 5
+    read_timeout: 5
+    max_header_bytes: 500000
+    enable: true
+
+
+database:
+  testing: true
+  dsn: ""
+  max_conns: 15
+  max_idle_conns: 5
+  max_retry: 5
+
+new_relic:
+  app_name: "parking_lot"
+  secret: ""
