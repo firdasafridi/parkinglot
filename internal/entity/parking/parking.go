@@ -14,3 +14,8 @@ type HstParking struct {
 	SlotNumber       int64     `json:"slot_number" gorm:"column:slot_number"`
 	RegistrationDate time.Time `json:"registration_date" gorm:"column:reg_date"`
 }
+
+type MapParking struct {
+	ID     int64  `json:"id" gorm:"column:id"`
+	PlatNo string `json:"plat_no" gorm:"column:plat_no"`
+}
