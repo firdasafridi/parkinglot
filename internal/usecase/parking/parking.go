@@ -13,6 +13,8 @@ import (
 
 type ParkingUC interface {
 	GetAllParkingData(ctx context.Context) (listTrxParking []*parkingdomain.TrxParking, err error)
+	ParkVehicle(ctx context.Context, platNo string) error
+	LeaveParkingLot(ctx context.Context, platNo string) error
 }
 
 type Parking struct {
@@ -34,4 +36,31 @@ func (uc *Parking) GetAllParkingData(ctx context.Context) (listTrxParking []*par
 	}
 
 	return listTrxParking, err
+}
+
+func (uc *Parking) ParkVehicle(ctx context.Context, platNo string) error {
+	// get empty parking lot
+	parkingSLotNo, err := uc.ParkingDB.GetEmptyParkingLot(ctx)
+	if err != nil {
+		return errors.Wrap(err, "Database.GetEmptyParkingLot")
+	}
+
+	err = uc.ParkingDB.ParkVehicle(ctx, &parkingdomain.TrxParking{
+		PlatNo:     platNo,
+		SlotNumber: parkingSLotNo,
+	})
+	if err != nil {
+		return errors.Wrap(err, "Database.ParkVehicle")
+	}
+
+	return nil
+}
+
+func (uc *Parking) LeaveParkingLot(ctx context.Context, platNo string) error {
+	err := uc.ParkingDB.LeaveParkingLot(ctx, platNo)
+	if err != nil {
+		return errors.Wrap(err, "Database.LeaveParkingLot")
+	}
+
+	return nil
 }
