@@ -7,6 +7,7 @@ import (
 
 	"github.com/pkg/errors"
 
+	"github.com/firdasafridi/parkinglot/internal/handler/middleware"
 	"github.com/firdasafridi/parkinglot/lib/common/commonerr"
 	"github.com/firdasafridi/parkinglot/lib/common/log"
 )
@@ -29,9 +30,12 @@ func WriteStrOK(ctx context.Context, w http.ResponseWriter) {
 func WriteJSONAPIError(ctx context.Context, w http.ResponseWriter, err error) {
 	switch errCause := errors.Cause(err).(type) {
 	case *commonerr.ErrorMessage:
+		middleware.SetHttpCode(ctx, errCause.Code, err)
 		write(ctx, w, errCause, errCause.Code)
 	default:
+		middleware.SetHttpCode(ctx, http.StatusInternalServerError, err)
 		write(ctx, w, commonerr.ErrorMessage{
+			Code:      http.StatusInternalServerError,
 			ErrorList: commonerr.SetNewInternalError().GetListError(),
 		}, http.StatusInternalServerError)
 	}
@@ -46,6 +50,7 @@ func write(ctx context.Context, w http.ResponseWriter, data interface{}, status 
 }
 
 func set(ctx context.Context, w http.ResponseWriter, datab []byte, status int) {
+
 	w.WriteHeader(status)
 	w.Header().Set("Content-Type", "application/json")
 	_, err := w.Write(datab)
@@ -63,5 +68,6 @@ func SetOKWithData(ctx context.Context, w http.ResponseWriter, data interface{})
 	datab, _ := json.Marshal(Format{
 		Data: data,
 	})
+	middleware.SetHttpCode(ctx, http.StatusOK, nil)
 	set(ctx, w, datab, http.StatusOK)
 }

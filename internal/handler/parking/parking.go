@@ -17,7 +17,7 @@ type ParkingHandler struct {
 
 // GetAllTransactionList get all transaction list brand
 func (h *ParkingHandler) GetAllParkingTransactionList(w http.ResponseWriter, r *http.Request) {
-	ctx := context.Background()
+	ctx := r.Context()
 
 	listData, err := h.ParkingUC.GetAllParkingData(ctx)
 	if err != nil {
@@ -29,10 +29,10 @@ func (h *ParkingHandler) GetAllParkingTransactionList(w http.ResponseWriter, r *
 }
 
 func (h *ParkingHandler) GetParkingLotByPlatNumber(w http.ResponseWriter, r *http.Request) {
-	ctx := context.Background()
+	ctx := r.Context()
 
 	platNo := r.URL.Query().Get("plat_no")
-	
+
 	data, err := h.ParkingUC.GetParkingLotByPlatNumber(ctx, platNo)
 	if err != nil {
 		commonwriter.WriteJSONAPIError(ctx, w, err)
@@ -44,7 +44,7 @@ func (h *ParkingHandler) GetParkingLotByPlatNumber(w http.ResponseWriter, r *htt
 
 func (h *ParkingHandler) GetEmptyParkingLot(w http.ResponseWriter, r *http.Request) {
 	ctx := context.Background()
-	
+
 	data, err := h.ParkingUC.GetEmptyParkingLot(ctx)
 	if err != nil {
 		commonwriter.WriteJSONAPIError(ctx, w, err)

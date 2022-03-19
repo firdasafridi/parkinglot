@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/firdasafridi/parkinglot/internal/config"
+	"github.com/firdasafridi/parkinglot/internal/handler/middleware"
 	parkinghandler "github.com/firdasafridi/parkinglot/internal/handler/parking"
 	parkingdb "github.com/firdasafridi/parkinglot/internal/repo/db/parking"
 	parkinguc "github.com/firdasafridi/parkinglot/internal/usecase/parking"
@@ -21,7 +22,12 @@ func app(cfg *config.Config) moduleHandler {
 		ParkingUC: parkingUC,
 	}
 
+	middlewareHandler := &middleware.Config{
+		Server: cfg.Server,
+	}
+
 	return moduleHandler{
 		ParkingHandler: parkingHandler,
+		Middleware:     middlewareHandler,
 	}
 }
