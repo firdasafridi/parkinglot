@@ -39,7 +39,7 @@ func (uc *Parking) GetAllParkingData(ctx context.Context) (listTrxParking []*par
 		return nil, commonerr.SetNewNotFound("data", "parking data not found")
 	}
 
-	return listTrxParking, err
+	return listTrxParking, nil
 }
 
 func (uc *Parking) GetParkingLotByPlatNumber(ctx context.Context, platNo string) (parkingLotID int64, err error) {
@@ -106,4 +106,3 @@ func (uc *Parking) GetParkingHistoryDailyReport(ctx context.Context) (*parkingdo
 	}
 	return result, nil
 }
-

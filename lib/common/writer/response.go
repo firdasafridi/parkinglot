@@ -9,6 +9,7 @@ import (
 
 	"github.com/firdasafridi/parkinglot/lib/common/commonerr"
 	"github.com/firdasafridi/parkinglot/lib/common/log"
+	// TODO: #12 import middleware http status code here
 )
 
 var (
@@ -29,9 +30,14 @@ func WriteStrOK(ctx context.Context, w http.ResponseWriter) {
 func WriteJSONAPIError(ctx context.Context, w http.ResponseWriter, err error) {
 	switch errCause := errors.Cause(err).(type) {
 	case *commonerr.ErrorMessage:
+		// TODO: #10 add http error code based on status handler here
+
 		write(ctx, w, errCause, errCause.Code)
 	default:
+		// TODO: #9 add http error code 500 handler here
+
 		write(ctx, w, commonerr.ErrorMessage{
+			Code:      http.StatusInternalServerError,
 			ErrorList: commonerr.SetNewInternalError().GetListError(),
 		}, http.StatusInternalServerError)
 	}
@@ -42,6 +48,8 @@ func write(ctx context.Context, w http.ResponseWriter, data interface{}, status 
 	if err != nil {
 		datab = []byte(`{"error_list":[{"error_name": "internal", "error_description": "Internal Server Error"}]}`)
 	}
+	// TODO: #11 add http ok code based on status handler here
+
 	set(ctx, w, datab, status)
 }
 

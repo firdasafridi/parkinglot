@@ -5,6 +5,7 @@ import (
 	parkinghandler "github.com/firdasafridi/parkinglot/internal/handler/parking"
 	parkingdb "github.com/firdasafridi/parkinglot/internal/repo/db/parking"
 	parkinguc "github.com/firdasafridi/parkinglot/internal/usecase/parking"
+	// TODO: #7.1 import package middleware here
 )
 
 func app(cfg *config.Config) moduleHandler {
@@ -21,7 +22,10 @@ func app(cfg *config.Config) moduleHandler {
 		ParkingUC: parkingUC,
 	}
 
+	// TODO: #7 Init middleware here
+
 	return moduleHandler{
 		ParkingHandler: parkingHandler,
+		// TODO: #8 Add middleware here
 	}
 }
