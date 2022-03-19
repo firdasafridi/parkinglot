@@ -9,7 +9,9 @@ import (
 
 	"github.com/firdasafridi/parkinglot/lib/common/commonerr"
 	"github.com/firdasafridi/parkinglot/lib/common/log"
+
 	// TODO: #12 import middleware http status code here
+	"github.com/firdasafridi/parkinglot/internal/handler/middleware"
 )
 
 var (
@@ -34,11 +36,11 @@ func WriteJSONAPIError(ctx context.Context, w http.ResponseWriter, err error) {
 	switch errCause := errors.Cause(err).(type) {
 	case *commonerr.ErrorMessage:
 		// TODO: #10 add http error code based on status handler here
-
+		middleware.SetHttpCode(ctx, errCause.Code, err)
 		write(ctx, w, errCause, errCause.Code)
 	default:
 		// TODO: #9 add http error code 500 handler here
-
+		middleware.SetHttpCode(ctx, http.StatusInternalServerError, err)
 		write(ctx, w, commonerr.ErrorMessage{
 			Code:      http.StatusInternalServerError,
 			ErrorList: commonerr.SetNewInternalError().GetListError(),
@@ -57,6 +59,7 @@ func write(ctx context.Context, w http.ResponseWriter, data interface{}, status 
 }
 
 func set(ctx context.Context, w http.ResponseWriter, datab []byte, status int) {
+
 	w.WriteHeader(status)
 	w.Header().Set("Content-Type", "application/json")
 	_, err := w.Write(datab)
@@ -74,5 +77,6 @@ func SetOKWithData(ctx context.Context, w http.ResponseWriter, data interface{})
 	datab, _ := json.Marshal(Format{
 		Data: data,
 	})
+	middleware.SetHttpCode(ctx, http.StatusOK, nil)
 	set(ctx, w, datab, http.StatusOK)
 }

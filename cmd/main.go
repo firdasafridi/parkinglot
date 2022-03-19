@@ -1,9 +1,13 @@
 package main
 
 import (
+	"os"
+
 	"github.com/firdasafridi/parkinglot/internal/config"
 	"github.com/firdasafridi/parkinglot/lib/common/log"
+
 	// TODO: #6.1 import pacakge nr here
+	"github.com/firdasafridi/parkinglot/lib/util/nr"
 )
 
 const (
@@ -19,6 +23,12 @@ func main() {
 	}
 
 	// TODO: #6 Call new package nr here
+	err = nr.New(cfg.NewRelic.AppName, cfg.NewRelic.Secret, map[string]string{
+		"env": os.Getenv("ENV"),
+	})
+	if err != nil {
+		log.Errorln(err)
+	}
 
 	mHandler := app(cfg)
 
