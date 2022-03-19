@@ -19,6 +19,8 @@ type ParkingUC interface {
 	GetEmptyParkingLot(ctx context.Context) (parkinglotID int64, err error)
 	GetParkingHistoryByDate(ctx context.Context, date parkingdomain.ParkingDate) ([]*parkingdomain.HstParking, error)
 	GetParkingHistoryDailyReport(ctx context.Context) (*parkingdomain.ParkingReport, error)
+
+	countriesUC
 }
 
 type Parking struct {
@@ -39,7 +41,7 @@ func (uc *Parking) GetAllParkingData(ctx context.Context) (listTrxParking []*par
 		return nil, commonerr.SetNewNotFound("data", "parking data not found")
 	}
 
-	return listTrxParking, err
+	return listTrxParking, nil
 }
 
 func (uc *Parking) GetParkingLotByPlatNumber(ctx context.Context, platNo string) (parkingLotID int64, err error) {
@@ -106,4 +108,3 @@ func (uc *Parking) GetParkingHistoryDailyReport(ctx context.Context) (*parkingdo
 	}
 	return result, nil
 }
-
