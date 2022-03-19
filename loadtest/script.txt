@@ -1,5 +1,4 @@
 GET http://localhost:8080/parking/list
-GET http://localhost:8080/ping
 content-type: application/json
 
 
