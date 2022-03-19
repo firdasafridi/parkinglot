@@ -24,21 +24,14 @@ func app(cfg *config.Config) moduleHandler {
 		ParkingUC: parkingUC,
 	}
 
-<<<<<<< Updated upstream
-=======
 	// TODO: #7 Init middleware here
->>>>>>> Stashed changes
 	middlewareHandler := &middleware.Config{
 		Server: cfg.Server,
 	}
 
 	return moduleHandler{
 		ParkingHandler: parkingHandler,
-<<<<<<< Updated upstream
-		Middleware:     middlewareHandler,
-=======
 		// TODO: #8 Add middleware here
 		Middleware: middlewareHandler,
->>>>>>> Stashed changes
 	}
 }
