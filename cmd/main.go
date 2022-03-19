@@ -5,6 +5,8 @@ import (
 
 	"github.com/firdasafridi/parkinglot/internal/config"
 	"github.com/firdasafridi/parkinglot/lib/common/log"
+
+	// TODO: #6.1 import pacakge nr here
 	"github.com/firdasafridi/parkinglot/lib/util/nr"
 )
 
@@ -20,6 +22,7 @@ func main() {
 		log.Fatalln("Can't get config file", err)
 	}
 
+	// TODO: #6 Call new package nr here
 	err = nr.New(cfg.NewRelic.AppName, cfg.NewRelic.Secret, map[string]string{
 		"env": os.Getenv("ENV"),
 	})

@@ -5,15 +5,19 @@ import (
 
 	"github.com/go-chi/chi"
 
-	"github.com/firdasafridi/parkinglot/internal/handler/middleware"
 	parkinghandler "github.com/firdasafridi/parkinglot/internal/handler/parking"
 	"github.com/firdasafridi/parkinglot/lib/common/log"
 	"github.com/firdasafridi/parkinglot/lib/common/writer"
+
+	// TODO: #3 import handler middleware here
+	"github.com/firdasafridi/parkinglot/internal/handler/middleware"
 )
 
 type moduleHandler struct {
 	ParkingHandler parkinghandler.ParkingHandler
-	Middleware     *middleware.Config
+
+	// TODO: #4 Setter handler middleware here
+	Middleware *middleware.Config
 }
 
 func newRoutes(mHandler moduleHandler) *chi.Mux {
@@ -22,7 +26,8 @@ func newRoutes(mHandler moduleHandler) *chi.Mux {
 
 	router := chi.NewRouter()
 
-	// router.Use(mHandler.Middleware.HandlerNR)
+	// TODO: #5 Set handler middleware here
+	router.Use(mHandler.Middleware.HandlerNR)
 	// router.Use(mHandler.Middleware.HandlerCustomMetricsTimeout)
 
 	router.Get("/ping", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
