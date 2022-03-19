@@ -1,6 +1,7 @@
 package parking
 
 const (
-	TblTrxParking = "trx_parking"
-	TblHstParking = "hst_parking"
+	TblTrxParking    = "trx_parking"
+	TblHstParking    = "hst_parking"
+	TblMapParkingLot = "map_parking_lot"
 )
