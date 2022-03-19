@@ -34,5 +34,6 @@ func newRoutes(mHandler moduleHandler) *chi.Mux {
 	router.Get("/parking/history", mHandler.ParkingHandler.GetParkingHistoryByDate)
 	router.Get("/parking/history/daily-report", mHandler.ParkingHandler.GetParkingHistoryDailyReport)
 
+	router.Get("/detail/{country}", mHandler.ParkingHandler.GetCounties)
 	return router
 }

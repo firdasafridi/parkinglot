@@ -28,6 +28,9 @@ func WriteStrOK(ctx context.Context, w http.ResponseWriter) {
 
 // WriteJSONAPIError is a helper
 func WriteJSONAPIError(ctx context.Context, w http.ResponseWriter, err error) {
+
+	log.Errorln(err)
+
 	switch errCause := errors.Cause(err).(type) {
 	case *commonerr.ErrorMessage:
 		// TODO: #10 add http error code based on status handler here

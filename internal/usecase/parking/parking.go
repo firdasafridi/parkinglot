@@ -19,6 +19,8 @@ type ParkingUC interface {
 	GetEmptyParkingLot(ctx context.Context) (parkinglotID int64, err error)
 	GetParkingHistoryByDate(ctx context.Context, date parkingdomain.ParkingDate) ([]*parkingdomain.HstParking, error)
 	GetParkingHistoryDailyReport(ctx context.Context) (*parkingdomain.ParkingReport, error)
+
+	countriesUC
 }
 
 type Parking struct {
