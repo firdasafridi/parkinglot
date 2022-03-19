@@ -15,6 +15,8 @@ import (
 
 type ParkingUC interface {
 	GetAllParkingData(ctx context.Context) (listTrxParking []*parkingdomain.TrxParking, err error)
+	GetParkingLotByPlatNumber(ctx context.Context, platNo string) (parkinglotID int64, err error)
+	GetEmptyParkingLot(ctx context.Context) (parkinglotID int64, err error)
 	GetParkingHistoryByDate(ctx context.Context, date parkingdomain.ParkingDate) ([]*parkingdomain.HstParking, error)
 	GetParkingHistoryDailyReport(ctx context.Context) (*parkingdomain.ParkingReport, error)
 }
@@ -38,6 +40,37 @@ func (uc *Parking) GetAllParkingData(ctx context.Context) (listTrxParking []*par
 	}
 
 	return listTrxParking, err
+}
+
+func (uc *Parking) GetParkingLotByPlatNumber(ctx context.Context, platNo string) (parkingLotID int64, err error) {
+
+	if platNo == "" {
+		return 0, commonerr.SetNewBadRequest("Plat Number", "Plat Number is required")
+	}
+
+	parkingLot, err := uc.ParkingDB.GetParkingLotByPlatNumber(ctx, platNo)
+	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+		return 0, errors.Wrap(err, "Database.GetList")
+	}
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return 0, commonerr.SetNewNotFound("data", "parking data not found")
+	}
+
+	return parkingLot.ID, nil
+}
+
+func (uc *Parking) GetEmptyParkingLot(ctx context.Context) (parkingLotID int64, err error) {
+	parkingLot, err := uc.ParkingDB.GetEmptyParkingLot(ctx)
+	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+		return 0, errors.Wrap(err, "Database.GetList")
+	}
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return 0, commonerr.SetNewNotFound("data", "parking data not found")
+	}
+
+	return parkingLot.ID, nil
 }
 
 func (uc *Parking) GetParkingHistoryByDate(ctx context.Context, date parkingdomain.ParkingDate) ([]*parkingdomain.HstParking, error) {
@@ -73,3 +106,4 @@ func (uc *Parking) GetParkingHistoryDailyReport(ctx context.Context) (*parkingdo
 	}
 	return result, nil
 }
+

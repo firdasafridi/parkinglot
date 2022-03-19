@@ -15,6 +15,11 @@ type HstParking struct {
 	RegistrationDate time.Time `json:"registration_date" gorm:"column:reg_date"`
 }
 
+type MapParking struct {
+	ID     int64  `json:"id" gorm:"column:id"`
+	PlatNo string `json:"plat_no" gorm:"column:plat_no"`
+}
+
 type ParkingDate struct {
 	StartDate string `schema:"start_date"`
 	EndDate   string `schema:"end_date"`
