@@ -19,3 +19,18 @@ type MapParking struct {
 	ID     int64  `json:"id" gorm:"column:id"`
 	PlatNo string `json:"plat_no" gorm:"column:plat_no"`
 }
+
+type ParkingDate struct {
+	StartDate string `schema:"start_date"`
+	EndDate   string `schema:"end_date"`
+}
+
+type ParkingReport struct {
+	TotalDays int            `json:"total_days"`
+	Reports   []*DailyReport `json:"reports"`
+}
+
+type DailyReport struct {
+	Date         string `json:"date" gorm:"column:date"`
+	TotalVehicle int64  `json:"total_vehicle" gorm:"column:total_vehicle"`
+}
