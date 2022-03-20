@@ -1,4 +1,14 @@
 GET http://localhost:8080/parking/list
 content-type: application/json
 
+GET http://localhost:8080/parking/empty
+content-type: application/json
 
+GET http://localhost:8080/parking?plat_no=1234
+content-type: application/json
+
+GET http://localhost:8080/parking/history?start_date=2020-01-01&end_date=2020-01-20
+content-type: application/json
+
+GET http://localhost:8080/parking/history/daily-report
+content-type: application/json
