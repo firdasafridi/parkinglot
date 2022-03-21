@@ -1,6 +1,7 @@
 package parking
 
 import (
+	"context"
 	"net/http"
 
 	parkingdomain "github.com/firdasafridi/parkinglot/internal/entity/parking"
@@ -8,6 +9,7 @@ import (
 	"github.com/firdasafridi/parkinglot/lib/common"
 	"github.com/firdasafridi/parkinglot/lib/common/commonerr"
 	commonwriter "github.com/firdasafridi/parkinglot/lib/common/writer"
+	"github.com/go-chi/chi"
 )
 
 type ParkingHandler struct {
@@ -25,6 +27,30 @@ func (h *ParkingHandler) GetAllParkingTransactionList(w http.ResponseWriter, r *
 	}
 
 	commonwriter.SetOKWithData(ctx, w, listData)
+}
+
+func (h *ParkingHandler) ParkVehicle(w http.ResponseWriter, r *http.Request) {
+	ctx := context.Background()
+
+	platNo := chi.URLParam(r, "platNo")
+	err := h.ParkingUC.ParkVehicle(ctx, platNo)
+	if err != nil {
+		return
+	}
+
+	commonwriter.SetOKWithData(ctx, w, "ok")
+}
+
+func (h *ParkingHandler) LeaveParkingLot(w http.ResponseWriter, r *http.Request) {
+	ctx := context.Background()
+
+	platNo := chi.URLParam(r, "platNo")
+	err := h.ParkingUC.LeaveParkingLot(ctx, platNo)
+	if err != nil {
+		return
+	}
+
+	commonwriter.SetOKWithData(ctx, w, "ok")
 }
 
 func (h *ParkingHandler) GetParkingLotByPlatNumber(w http.ResponseWriter, r *http.Request) {

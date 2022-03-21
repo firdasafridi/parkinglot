@@ -67,3 +67,90 @@ parkinglot$ make app
     ]
 }
 ```
+
+### Get Nearest Empty Parking Spot
+- GET [/parking/empty](http://localhost:8080/parking/empty)
+```
+{
+    "data": 1
+}
+```
+
+### Get Parking location by Plat Number
+- GET [/parking?plat_no=K327714LGG](http://localhost:8080/parking?plat_no=K327714LGG)
+```
+{
+    "data": 11
+}
+```
+
+### Get Parking History by Date
+- GET [/parking/history](http://localhost:8080/history?start_date=2020-01-01&end_date=2020-01-20)
+```
+{
+  "data": [
+    {
+      "history_id": 1321,
+      "plat_no": "O135509SOU",
+      "slot_number": 983,
+      "registration_date": "2020-01-01T22:56:27Z"
+    },
+    {
+      "history_id": 1706,
+      "plat_no": "N922759HQR",
+      "slot_number": 941,
+      "registration_date": "2020-01-01T18:54:55Z"
+    }ß
+  ]
+}
+```
+
+### Get Report Number of Vehicles ßPer Day
+- GET [/parking/history/daily-report](http://localhost:8080/parking/history/daily-report)
+```
+{
+  "data": {
+    "total_days": 367,
+    "reports": [
+      {
+        "date": "2020-01-01",
+        "total_vehicle": 113
+      },
+      {
+        "date": "2020-01-02",
+        "total_vehicle": 303
+      }
+  }
+}
+```
+
+### Get Country Information (Upstream)
+- GET [/detail/{country}](http://localhost:8080/detail/indonesia)
+```
+{
+  "data": [
+    {
+      "name": {
+        "common": "Indonesia",
+        "official": "Republic of Indonesia",
+        "nativeName": {
+          "ind": {
+            "official": "Republik Indonesia",
+            "common": "Indonesia"
+          }
+        }
+      },
+      "tld": [
+        ".id"
+      ],
+      "cca2": "ID",
+      "ccn3": "360",
+      "cca3": "IDN",
+      "cioc": "INA",
+      "independent": true,
+      "status": "officially-assigned",
+      "unMember": true,
+    }
+  ]
+}
+```
