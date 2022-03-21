@@ -5,10 +5,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 
 	domaincounties "github.com/firdasafridi/parkinglot/internal/entity/countries"
+	"github.com/firdasafridi/parkinglot/internal/handler/middleware"
+	newrelic "github.com/newrelic/go-agent"
 	"github.com/pkg/errors"
 )
 
@@ -30,11 +31,17 @@ func RequestCountry(ctx context.Context, country string) (detailCountries []doma
 		return nil, errors.Wrap(err, "RequestCountry.NewRequestWithContext")
 	}
 
+	txn := middleware.GeTrxKey(ctx)
+
+	txSegment := newrelic.StartExternalSegment(txn, req)
+
 	client := http.DefaultClient
 	res, err := client.Do(req)
 	if err != nil {
-		log.Fatalf("%v", err)
+		return nil, errors.Wrap(err, "RequestCountry.client.Do")
 	}
+	txSegment.Response = res
+	txSegment.End()
 	defer res.Body.Close()
 
 	body, err := ioutil.ReadAll(res.Body)
