@@ -15,7 +15,11 @@ content-type: application/json
 
 
 ```
-vegeta attack -rate=250 -duration=10m -timeout=2s -targets=script.txt | vegeta report
+vegeta attack -rate=10 -duration=10m -timeout=2s -targets=script.txt | vegeta report
 ```
+
+rate = Amount request persecond
+duration = time request from the agent to the service
+timeout = Deadline
 
 

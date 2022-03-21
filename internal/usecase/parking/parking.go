@@ -15,6 +15,8 @@ import (
 
 type ParkingUC interface {
 	GetAllParkingData(ctx context.Context) (listTrxParking []*parkingdomain.TrxParking, err error)
+	ParkVehicle(ctx context.Context, platNo string) error
+	LeaveParkingLot(ctx context.Context, platNo string) error
 	GetParkingLotByPlatNumber(ctx context.Context, platNo string) (parkinglotID int64, err error)
 	GetEmptyParkingLot(ctx context.Context) (parkinglotID int64, err error)
 	GetParkingHistoryByDate(ctx context.Context, date parkingdomain.ParkingDate) ([]*parkingdomain.HstParking, error)
@@ -107,4 +109,31 @@ func (uc *Parking) GetParkingHistoryDailyReport(ctx context.Context) (*parkingdo
 		return nil, commonerr.SetNewNotFound("data", "parking data not found")
 	}
 	return result, nil
+}
+
+func (uc *Parking) ParkVehicle(ctx context.Context, platNo string) error {
+	// get empty parking lot
+	parkingSLotNo, err := uc.ParkingDB.GetEmptyParkingLot(ctx)
+	if err != nil {
+		return errors.Wrap(err, "Database.GetEmptyParkingLot")
+	}
+
+	err = uc.ParkingDB.ParkVehicle(ctx, &parkingdomain.TrxParking{
+		PlatNo:     platNo,
+		SlotNumber: parkingSLotNo.ID,
+	})
+	if err != nil {
+		return errors.Wrap(err, "Database.ParkVehicle")
+	}
+
+	return nil
+}
+
+func (uc *Parking) LeaveParkingLot(ctx context.Context, platNo string) error {
+	err := uc.ParkingDB.LeaveParkingLot(ctx, platNo)
+	if err != nil {
+		return errors.Wrap(err, "Database.LeaveParkingLot")
+	}
+
+	return nil
 }
