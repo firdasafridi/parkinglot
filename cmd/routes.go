@@ -29,6 +29,8 @@ func newRoutes(mHandler moduleHandler) *chi.Mux {
 	}))
 
 	router.Get("/parking/list", mHandler.ParkingHandler.GetAllParkingTransactionList)
+	router.Post("/parking/park/{platNo}", mHandler.ParkingHandler.ParkVehicle)
+	router.Post("/parking/leave/{platNo}", mHandler.ParkingHandler.LeaveParkingLot)
 	router.Get("/parking", mHandler.ParkingHandler.GetParkingLotByPlatNumber)
 	router.Get("/parking/empty", mHandler.ParkingHandler.GetEmptyParkingLot)
 	router.Get("/parking/history", mHandler.ParkingHandler.GetParkingHistoryByDate)
