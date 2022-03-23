@@ -9,7 +9,7 @@ import (
 
 	"github.com/firdasafridi/parkinglot/lib/common/commonerr"
 	"github.com/firdasafridi/parkinglot/lib/common/log"
-	// TODO: #12 import middleware http status code here
+	// TODO: #11 import middleware http status code here
 )
 
 var (
@@ -51,8 +51,6 @@ func write(ctx context.Context, w http.ResponseWriter, data interface{}, status 
 	if err != nil {
 		datab = []byte(`{"error_list":[{"error_name": "internal", "error_description": "Internal Server Error"}]}`)
 	}
-	// TODO: #11 add http ok code based on status handler here
-
 	set(ctx, w, datab, status)
 }
 
