@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"os"
 	"time"
 )
 
@@ -76,13 +77,29 @@ func (event *Event) run() {
 
 	eventb, _ := json.Marshal(event)
 	fmt.Printf("%s\n", eventb)
+
+	f, err := os.OpenFile("parking_lot.log", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
+	if err != nil {
+		fmt.Printf("%s\n", err)
+	}
+	defer f.Close()
+	if _, err := f.WriteString(fmt.Sprintf("%v\n", event)); err != nil {
+		fmt.Printf("%s\n", err)
+	}
 }
 func (event *Event) runFatalln() {
 	if !event.config.IsJson {
 		log.Println(event)
 		return
 	}
-
+	f, err := os.OpenFile("parking_lot.log", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
+	if err != nil {
+		fmt.Printf("%s\n", err)
+	}
+	defer f.Close()
+	if _, err := f.WriteString(fmt.Sprintf("%v\n", event)); err != nil {
+		fmt.Printf("%s\n", err)
+	}
 	eventb, _ := json.Marshal(event)
 	panic(fmt.Sprintf("%s", eventb))
 }

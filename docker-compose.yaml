@@ -2,7 +2,7 @@ version: '3.1'
 
 services:
   db:
-    image: mysql
+    image: mysql:8-oracle
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -15,9 +15,9 @@ services:
   adminer:
     image: adminer
     restart: always
-    ports: 
+    ports:
       - 8081:8080
-      
+
   nrinfra:
     container_name: newrelic-infra
     build:
