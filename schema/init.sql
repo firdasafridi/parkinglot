@@ -18,5 +18,7 @@ CREATE TABLE map_parking_lot (
 
 
 -- INSERT 10 ROWS in map_parking_lot table
-INSERT INTO map_parking_lot ()
-VALUES (),(),(),(),(),(),(),(),(),();
+INSERT INTO map_parking_lot (plat_no)
+VALUES ('1234');
+INSERT INTO map_parking_lot (plat_no)
+VALUES ('');
