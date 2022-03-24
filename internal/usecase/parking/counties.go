@@ -8,9 +8,9 @@ import (
 )
 
 type countriesUC interface {
-	GetCounties(ctx context.Context, country string) (detailCountries []domaincounties.ResponseCountry, err error)
+	GetCounties(ctx context.Context, country string) (detailCountries domaincounties.Response, err error)
 }
 
-func (uc *Parking) GetCounties(ctx context.Context, country string) (detailCountries []domaincounties.ResponseCountry, err error) {
+func (uc *Parking) GetCounties(ctx context.Context, country string) (detailCountries domaincounties.Response, err error) {
 	return countries.RequestCountry(ctx, country)
 }
