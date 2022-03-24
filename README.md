@@ -46,6 +46,9 @@ database:
 new_relic:
   app_name: "Parking Lot"
   secret: "this_secret_generated" #generated from one.newrelic.com
+  
+# Change the config newrelic-infra.yml
+license_key: this_secret_generated #generated from one.newrelic.com
 ```
 
 ### Running golang apps
