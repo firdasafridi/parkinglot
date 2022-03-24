@@ -1,5 +1,10 @@
 package countries
 
+type Response struct {
+	Countries []ResponseCountry
+	City      CityResponse
+}
+
 type ResponseCountry struct {
 	Name         Name                   `json:"name"`
 	Tld          []string               `json:"tld"`
@@ -117,4 +122,23 @@ type Capitalinfo struct {
 type Postalcode struct {
 	Format string `json:"format"`
 	Regex  string `json:"regex"`
+}
+
+type City struct {
+	City string `json:"city"`
+}
+
+type CityResponse struct {
+	Error bool   `json:"error"`
+	Msg   string `json:"msg"`
+	Data  struct {
+		City             string `json:"city"`
+		Country          string `json:"country"`
+		PopulationCounts []struct {
+			Year       string `json:"year"`
+			Value      string `json:"value"`
+			Sex        string `json:"sex"`
+			Reliabilty string `json:"reliabilty"`
+		} `json:"populationCounts"`
+	} `json:"data"`
 }
