@@ -9,8 +9,6 @@ import (
 	"net/http"
 
 	domaincounties "github.com/firdasafridi/parkinglot/internal/entity/countries"
-	"github.com/firdasafridi/parkinglot/internal/handler/middleware"
-	newrelic "github.com/newrelic/go-agent"
 	"github.com/pkg/errors"
 )
 
@@ -34,10 +32,6 @@ func RequestCountry(ctx context.Context, country string) (resp domaincounties.Re
 		return resp, errors.Wrap(err, "RequestCountry.NewRequestWithContext")
 	}
 
-	txn := middleware.GeTrxKey(ctx)
-
-	txSegment := newrelic.StartExternalSegment(txn, req)
-
 	client := http.DefaultClient
 	res, err := client.Do(req)
 	if err != nil {
@@ -56,9 +50,6 @@ func RequestCountry(ctx context.Context, country string) (resp domaincounties.Re
 		return resp, errors.Wrap(err, "RequestCountry.Unmarshal")
 	}
 
-	txSegment.Response = res
-	txSegment.End()
-
 	resp.Countries = countries
 
 	cityBody, _ := json.Marshal(&domaincounties.City{
@@ -70,8 +61,6 @@ func RequestCountry(ctx context.Context, country string) (resp domaincounties.Re
 		return resp, errors.Wrap(err, "RequestCountry.NewRequestWithContext")
 	}
 	req2.Header.Set("Content-Type", "application/json")
-
-	txSegment2 := newrelic.StartExternalSegment(txn, req2)
 
 	res2, err := client.Do(req2)
 	if err != nil {
@@ -91,9 +80,6 @@ func RequestCountry(ctx context.Context, country string) (resp domaincounties.Re
 	}
 
 	resp.City = city
-
-	txSegment2.Response = res2
-	txSegment2.End()
 
 	return resp, nil
 }
